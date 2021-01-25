@@ -1,3 +1,4 @@
+require 'byebug'
 class Node
   attr_reader :key
   attr_accessor :val, :next, :prev
@@ -20,43 +21,65 @@ class Node
 end
 
 class LinkedList
-  def initialize
-  end
+    include Enumerable
 
-  def [](i)
-    each_with_index { |link, j| return link if i == j }
-    nil
-  end
+    def initialize
+        @head = Node.new
+        @tail = Node.new
+        @head.next = @tail
+        @tail.prev = @head
+    end
 
-  def first
-  end
+    def [](i)
+        each_with_index { |link, j| return link if i == j }
+        nil
+    end
 
-  def last
-  end
+    def first
+    end
 
-  def empty?
-  end
+    def last
+    end
 
-  def get(key)
-  end
+    def empty?
+        @head.next == @tail && @tail.prev == @head
+    end
 
-  def include?(key)
-  end
+    def get(key)
+        self.each do |node|
+            if key == node.key
+                return node.val
+            end
+        end
+        return nil
+    end
 
-  def append(key, val)
-  end
+    def include?(key)
+    end
 
-  def update(key, val)
-  end
+    def append(key = nil, val = nil)
+        new_node = Node.new(key, val)
 
-  def remove(key)
-  end
+        new_node.next = @head
+        @head.prev = new_node
+    end
 
-  def each
-  end
+    def update(key, val)
+    end
 
-  # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+    def remove(key)
+    end
+
+    def each
+        current_node = self.head.next
+        until current_node == self.take
+            yield current_node
+            current_node = current_node.next
+        end
+    end
+
+    # uncomment when you have `each` working and `Enumerable` included
+    # def to_s
+    #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+    # end
 end
