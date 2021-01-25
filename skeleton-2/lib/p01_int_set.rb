@@ -33,57 +33,74 @@ end
 
 
 class IntSet
-  def initialize(num_buckets = 20)
-    @store = Array.new(num_buckets) { Array.new }
-  end
+    attr_reader :num_buckets
+    def initialize(num_buckets = 20)
+        @num_buckets = num_buckets
+        @store = Array.new(num_buckets) { Array.new }
+    end
 
-  def insert(num)
-  end
+    def insert(num)
+        i = num % num_buckets
+        @store[i] << num
+    end
 
-  def remove(num)
-  end
+    def remove(num)
+        i = num % num_buckets
+        @store[i].delete(num)
+    end
 
-  def include?(num)
-  end
+    def include?(num)
+        i = num % num_buckets
+        @store[i].include?(num)
+    end
 
-  private
+    private
 
-  def [](num)
-    # optional but useful; return the bucket corresponding to `num`
-  end
+    def [](num)
+        # optional but useful; return the bucket corresponding to `num`
+    end
 
-  def num_buckets
-    @store.length
-  end
-end
+    def num_buckets
+        @store.length
+    end
+    end
 
-class ResizingIntSet
-  attr_reader :count
+    class ResizingIntSet
+    attr_reader :count
 
-  def initialize(num_buckets = 20)
-    @store = Array.new(num_buckets) { Array.new }
-    @count = 0
-  end
+    def initialize(num_buckets = 20)
+        @store = Array.new(num_buckets) { Array.new }
+        @count = 0
+    end
 
-  def insert(num)
-  end
+    def inspect
 
-  def remove(num)
-  end
+    end
 
-  def include?(num)
-  end
+    def insert(num)
+    end
 
-  private
+    def remove(num)
+    end
 
-  def [](num)
-    # optional but useful; return the bucket corresponding to `num`
-  end
+    def include?(num)
+    end
 
-  def num_buckets
-    @store.length
-  end
+    private
 
-  def resize!
-  end
+    def [](num)
+        # optional but useful; return the bucket corresponding to `num`
+    end
+
+    def num_buckets
+        @store.length
+    end
+
+    def resize!
+        if num_buckets < count
+            self.num_buckets.times do 
+                @store += []
+            end
+        end
+    end
 end
